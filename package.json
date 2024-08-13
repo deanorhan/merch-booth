@@ -1,0 +1,12 @@
+{
+  "name": "merch-booth",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "go run ./apps/merch-rack",
+    "db:up": "goose -dir ./db/migrations sqlite3 ./merch.db up",
+    "db:down": "goose -dir ./db/migrations sqlite3 ./merch.db down"
+  },
+  "author": "",
+  "license": "ISC"
+}
