@@ -46,6 +46,26 @@ func (q *Queries) CreateMerch(ctx context.Context, arg CreateMerchParams) (Merch
 	return i, err
 }
 
+const getMerchItem = `-- name: GetMerchItem :one
+select merch_id, vendor, status, title, price, description, created_at, modified_at from merch where merch_id = ?
+`
+
+func (q *Queries) GetMerchItem(ctx context.Context, merchID int64) (Merch, error) {
+	row := q.db.QueryRowContext(ctx, getMerchItem, merchID)
+	var i Merch
+	err := row.Scan(
+		&i.MerchID,
+		&i.Vendor,
+		&i.Status,
+		&i.Title,
+		&i.Price,
+		&i.Description,
+		&i.CreatedAt,
+		&i.ModifiedAt,
+	)
+	return i, err
+}
+
 const listMerch = `-- name: ListMerch :many
 select merch_id, vendor, status, title, price, description, created_at, modified_at from merch
 `

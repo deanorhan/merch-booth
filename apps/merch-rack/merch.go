@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/deanorhan/merch-booth/libs/db-package"
 	"github.com/gin-gonic/gin"
@@ -44,6 +45,29 @@ func PostMerch(c *gin.Context) {
 	queries := db.New(dab)
 
 	m, err := queries.CreateMerch(c, db.CreateMerchParams{Vendor: 0, Status: 0, Title: merch.Title, Price: float64(merch.Price)})
+	if err != nil {
+		log.Println(err)
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusCreated, Merch{Status: int8(m.Status), Title: m.Title, Price: float32(m.Price)})
+}
+
+func GetMerchItem(c *gin.Context) {
+	id := c.Param("id")
+
+	merch_id, err := strconv.Atoi(id)
+	if err != nil {
+		log.Println(err)
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	dab := GetDBConnection()
+	queries := db.New(dab)
+
+	m, err := queries.GetMerchItem(c, int64(merch_id))
 	if err != nil {
 		log.Println(err)
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})

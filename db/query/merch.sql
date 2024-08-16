@@ -8,3 +8,6 @@ INSERT INTO merch (
   ?, ?, ?, ?
 )
 RETURNING *;
+
+-- name: GetMerchItem :one
+select * from merch where merch_id = ?;
