@@ -76,3 +76,29 @@ func GetMerchItem(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusCreated, Merch{Status: int8(m.Status), Title: m.Title, Price: float32(m.Price)})
 }
+
+func PutMerchItem(c *gin.Context) {
+	id := c.Param("id")
+
+	merch_id, err := strconv.Atoi(id)
+	if err != nil {
+		log.Println(err)
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	var merch Merch
+
+	if err := c.BindJSON(&merch); err != nil {
+		log.Println(err)
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		return
+	}
+
+	dab := GetDBConnection()
+	queries := db.New(dab)
+
+	queries.UpdateMerchItem(c, db.UpdateMerchItemParams{
+		Title: merch.Title, Status: int64(merch.Status), Price: float64(merch.Price), MerchID: int64(merch_id),
+	})
+}

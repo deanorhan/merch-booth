@@ -101,3 +101,26 @@ func (q *Queries) ListMerch(ctx context.Context) ([]Merch, error) {
 	}
 	return items, nil
 }
+
+const updateMerchItem = `-- name: UpdateMerchItem :exec
+update merch
+set title = ?, status= ?, price = ?
+where merch_id = ?
+`
+
+type UpdateMerchItemParams struct {
+	Title   string
+	Status  int64
+	Price   float64
+	MerchID int64
+}
+
+func (q *Queries) UpdateMerchItem(ctx context.Context, arg UpdateMerchItemParams) error {
+	_, err := q.db.ExecContext(ctx, updateMerchItem,
+		arg.Title,
+		arg.Status,
+		arg.Price,
+		arg.MerchID,
+	)
+	return err
+}

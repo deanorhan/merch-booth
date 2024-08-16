@@ -13,6 +13,7 @@ func main() {
 		merchGroup.POST("/", PostMerch)
 
 		merchGroup.GET("/:id", GetMerchItem)
+		merchGroup.PUT("/:id", PutMerchItem)
 	}
 
 	r.Run() // listen and serve on 0.0.0.0:8080
