@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 	"strconv"
@@ -74,11 +75,16 @@ func GetMerchItem(c *gin.Context) {
 	m, err := queries.GetMerchItem(c, int64(merch_id))
 	if err != nil {
 		log.Println(err)
-		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+
+		if err == sql.ErrNoRows {
+			c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Merch does not exist"})
+		} else {
+			c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		}
 		return
 	}
 
-	c.IndentedJSON(http.StatusCreated, Merch{Status: int8(m.Status), Title: m.Title, Price: float32(m.Price)})
+	c.IndentedJSON(http.StatusOK, Merch{Status: int8(m.Status), Title: m.Title, Price: float32(m.Price)})
 }
 
 func PutMerchItem(c *gin.Context) {
