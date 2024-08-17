@@ -29,6 +29,10 @@ func GetMerch(c *gin.Context) {
 		return
 	}
 
+	if merch == nil {
+		merch = make([]db.Merch, 0)
+	}
+
 	c.IndentedJSON(http.StatusOK, merch)
 }
 
@@ -70,7 +74,7 @@ func GetMerchItem(c *gin.Context) {
 	m, err := queries.GetMerchItem(c, int64(merch_id))
 	if err != nil {
 		log.Println(err)
-		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 

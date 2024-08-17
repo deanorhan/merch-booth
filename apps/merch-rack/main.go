@@ -5,6 +5,11 @@ import (
 )
 
 func main() {
+	r := getRouter()
+	r.Run() // listen and serve on 0.0.0.0:8080
+}
+
+func getRouter() *gin.Engine {
 	r := gin.Default()
 
 	merchGroup := r.Group("/api/v1/merch")
@@ -16,5 +21,5 @@ func main() {
 		merchGroup.PUT("/:id", PutMerchItem)
 	}
 
-	r.Run() // listen and serve on 0.0.0.0:8080
+	return r
 }

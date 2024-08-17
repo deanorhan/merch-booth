@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "start": "go run ./apps/merch-rack",
+    "test": "go test ./apps/merch-rack",
     "db:up": "goose -dir ./db/migrations sqlite3 ./merch.db up",
     "db:down": "goose -dir ./db/migrations sqlite3 ./merch.db down"
   },
