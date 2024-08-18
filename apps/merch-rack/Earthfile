@@ -1,0 +1,24 @@
+VERSION 0.8
+FROM golang:1.22-alpine
+WORKDIR /app
+
+deps:
+  COPY ../../libs/db-package+artifact/* /libs/db-package
+  COPY go.mod go.sum ./
+  RUN go mod download
+
+compile:
+  FROM +deps
+  COPY main.go merch.go db_conn.go .
+  RUN go build -o merch-rack .
+  SAVE ARTIFACT merch-rack
+
+unit-test:
+  FROM +deps
+  COPY *.go .
+  RUN go test
+
+image:
+  COPY +compile/merch-rack .
+  ENTRYPOINT ["/app/merch-rack"]
+  SAVE IMAGE deanorhan/merch-rack:go

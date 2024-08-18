@@ -1,0 +1,16 @@
+VERSION 0.8
+
+deps:
+  FROM golang:1.22-alpine
+  WORKDIR /libs/db-package
+  COPY go.mod ./
+  RUN go mod download
+
+artifact:
+  FROM +deps
+  COPY db.go merch.sql.go models.go .
+  SAVE ARTIFACT .
+
+unit-test:
+  FROM +artifact
+  RUN go test
