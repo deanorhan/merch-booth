@@ -7,7 +7,7 @@ deps:
   COPY go.mod go.sum ./
   RUN go mod download
 
-compile:
+build:
   FROM +deps
   COPY main.go merch.go db_conn.go .
   RUN go build -o merch-rack .

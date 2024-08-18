@@ -5,8 +5,8 @@ unit-test:
   BUILD ./libs/db-package+unit-test
   # BUILD ./apps/merch-rack+unit-test
 
-compile:
-  BUILD ./apps/merch-rack+compile
+build:
+  BUILD ./apps/merch-rack+build
 
 image:
   BUILD ./apps/merch-rack+image
