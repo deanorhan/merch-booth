@@ -9,4 +9,5 @@ build:
   BUILD ./apps/merch-rack+build
 
 image:
-  BUILD ./apps/merch-rack+image
+  ARG buildenv
+  BUILD ./apps/merch-rack+image --buildenv=$buildenv

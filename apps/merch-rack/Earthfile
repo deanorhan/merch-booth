@@ -22,7 +22,14 @@ image:
   ARG EARTHLY_GIT_BRANCH
   ARG EARTHLY_GIT_SHORT_HASH
   ARG EARTHLY_GIT_TAG
-  ARG TAG=$EARTHLY_GIT_BRANCH-$EARTHLY_GIT_SHORT_HASH
+
+  ARG buildenv=dev
+  IF [ "$buildenv" = "prod" ]
+    ARG TAG="latest"
+  ELSE
+    ARG TAG=$EARTHLY_GIT_BRANCH-$EARTHLY_GIT_SHORT_HASH
+  END
+
   COPY +build/merch-rack .
   ENTRYPOINT ["/app/merch-rack"]
   SAVE IMAGE deanorhan/merch-rack:$TAG
