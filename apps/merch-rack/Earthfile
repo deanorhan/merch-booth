@@ -19,6 +19,10 @@ unit-test:
   RUN go test
 
 image:
-  COPY +compile/merch-rack .
+  ARG EARTHLY_GIT_BRANCH
+  ARG EARTHLY_GIT_SHORT_HASH
+  ARG EARTHLY_GIT_TAG
+  ARG TAG=$EARTHLY_GIT_BRANCH-$EARTHLY_GIT_SHORT_HASH
+  COPY +build/merch-rack .
   ENTRYPOINT ["/app/merch-rack"]
-  SAVE IMAGE deanorhan/merch-rack:go
+  SAVE IMAGE deanorhan/merch-rack:$TAG
