@@ -13,7 +13,7 @@ build:
   RUN go build -o merch-rack .
   SAVE ARTIFACT merch-rack
 
-unit-test:
+test:
   FROM +deps
   COPY *.go .
   RUN go test

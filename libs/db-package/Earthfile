@@ -11,6 +11,6 @@ artifact:
   COPY db.go merch.sql.go models.go .
   SAVE ARTIFACT .
 
-unit-test:
+test:
   FROM +artifact
   RUN go test

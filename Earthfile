@@ -1,9 +1,9 @@
 VERSION 0.8
 FROM golang:1.22-alpine
 
-unit-test:
-  BUILD ./libs/db-package+unit-test
-  # BUILD ./apps/merch-rack+unit-test
+test:
+  BUILD ./libs/db-package+test
+  # BUILD ./apps/merch-rack+test
 
 build:
   BUILD ./apps/merch-rack+build
